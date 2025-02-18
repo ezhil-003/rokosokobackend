@@ -18,10 +18,15 @@ exports.loginUser = async (req, res) => {
       return res.status(200).json({ message: 'Invalid credentials. Incorrect password.' });
     }
 
+    // Create a new user object without the _id and password
+    const userinfo = { ...user.toObject() }; // Convert to plain object
+    delete userinfo._id;  // Remove _id
+    delete userinfo.password; // Remove password
+
     // Generate JWT
     const token = jwt.sign({ userId: user._id }, process.env.JWT_SECRET, { expiresIn: '1h' });
 
-    res.status(200).json({ message: 'Login successful', token });
+    res.status(200).json({ message: 'Login successful', token, userinfo });
   } catch (error) {
     console.error('Error logging in:', error);
     res.status(200).json({ message: 'Server Error during login. Please try again later.' });
