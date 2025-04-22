@@ -25,7 +25,7 @@ app.use('/api', router); // /api
 const startServer = async () => {
   try {
     await connectDB();
-    const port = process.env.PORT || 5000;
+    // const port = process.env.PORT || 5000;
     
     // app.listen(port, () => {
     //   console.log(`🚀 Server running at http://localhost:${port}`);
@@ -43,6 +43,4 @@ startServer();
 app.get("/", publicSessionController);
 
 // Export the app as the handler
-export default async (req, res) => {
-  await app(req, res);
-};
+export default app;
